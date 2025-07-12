@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptonize</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        gray: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+</head>
+<body class="theme-transition bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="theme-transition bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
+        <nav class="container mx-auto px-4 lg:px-6">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-lock text-white text-lg"></i>
+                    </div>
+                    <h1 class="text-xl font-bold gradient-text">Cryptonize</h1>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#encrypt" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">Criptografar</a>
+                    <a href="#decrypt" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">Descriptografar</a>
+                    <a href="#about" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">Sobre</a>
+                </div>
+                
+                <!-- Theme Toggle -->
+                <div class="flex items-center space-x-4">
+                    <button id="themeToggle" class="theme-transition p-2.5 rounded-xl bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300">
+                        <i class="fas fa-sun dark:hidden text-lg"></i>
+                        <i class="fas fa-moon hidden dark:block text-lg"></i>
+                    </button>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuBtn" class="md:hidden theme-transition p-2.5 rounded-xl bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenuOverlay" class="fixed inset-0 bg-black/50 z-40 md:hidden opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed top-0 left-0 h-full w-80 bg-white dark:bg-gray-800 z-50 md:hidden shadow-2xl">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-lock text-white text-lg"></i>
+                    </div>
+                    <h1 class="text-xl font-bold gradient-text">Cryptonize</h1>
+                </div>
+                <button id="closeMobileMenu" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <nav class="space-y-4">
+                <a href="#encrypt" class="mobile-nav-link block py-3 px-4 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors font-medium">
+                    <i class="fas fa-lock w-5 mr-3"></i>Criptografar
+                </a>
+                <a href="#decrypt" class="mobile-nav-link block py-3 px-4 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors font-medium">
+                    <i class="fas fa-unlock w-5 mr-3"></i>Descriptografar
+                </a>
+                <a href="#about" class="mobile-nav-link block py-3 px-4 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors font-medium">
+                    <i class="fas fa-info-circle w-5 mr-3"></i>Sobre
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative py-16 lg:py-24 bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-800 dark:to-gray-900 overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%233b82f6" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] dark:opacity-20"></div>
+        <div class="container mx-auto px-4 lg:px-6 relative">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl lg:text-6xl font-bold mb-8 text-gray-900 dark:text-white leading-tight">
+                    Criptografia de Texto
+                    <span class="gradient-text block">Simples e Segura</span>
+                </h2>
+                <p class="text-lg lg:text-xl mb-10 max-w-2xl mx-auto text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Proteja suas mensagens com diferentes algoritmos de criptografia. Criptografe e descriptografe textos de forma rápida e segura.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <button onclick="scrollToSection('encrypt')" class="w-full sm:w-auto bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        <i class="fas fa-lock mr-2"></i>Começar Agora
+                    </button>
+                    <button onclick="scrollToSection('about')" class="w-full sm:w-auto bg-white dark:bg-gray-800 text-primary-600 dark:text-primary-400 px-8 py-4 rounded-xl font-semibold border-2 border-primary-200 dark:border-gray-600 hover:border-primary-300 dark:hover:border-gray-500 transition-all duration-300">
+                        <i class="fas fa-info-circle mr-2"></i>Saiba Mais
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 lg:px-6 py-16 lg:py-24">
+        <!-- Encryption Section -->
+        <section id="encrypt" class="mb-16 lg:mb-24">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl lg:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Criptografar Texto</h3>
+                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Digite seu texto e escolha o método de criptografia desejado</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="crypto-card theme-transition bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
+                    <!-- Algorithm Selection -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Algoritmo de Criptografia</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <button class="algorithm-btn active" data-algorithm="base64">
+                                <i class="fas fa-code mr-2"></i>Base64
+                            </button>
+                            <button class="algorithm-btn" data-algorithm="caesar">
+                                <i class="fas fa-key mr-2"></i>Caesar
+                            </button>
+                            <button class="algorithm-btn" data-algorithm="rot13">
+                                <i class="fas fa-sync-alt mr-2"></i>ROT13
+                            </button>
+                            <button class="algorithm-btn" data-algorithm="reverse">
+                                <i class="fas fa-exchange-alt mr-2"></i>Reverso
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Caesar Cipher Key Input -->
+                    <div id="caesarKeyInput" class="mb-6 hidden">
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Chave Caesar (1-25)</label>
+                        <input type="number" id="caesarKey" min="1" max="25" value="3" class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                    </div>
+
+                    <!-- Input Text -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Texto Original</label>
+                        <textarea id="inputText" placeholder="Digite o texto que deseja criptografar..." 
+                                  class="w-full h-32 px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"></textarea>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-sm text-gray-500 dark:text-gray-400">
+                                <span id="inputCharCount">0</span> caracteres
+                            </span>
+                            <button id="clearInput" class="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
+                                <i class="fas fa-trash mr-1"></i>Limpar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Encrypt Button -->
+                    <div class="mb-6">
+                        <button id="encryptBtn" class="w-full bg-primary-600 hover:bg-primary-700 text-white py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            <i class="fas fa-lock mr-2"></i>Criptografar Texto
+                        </button>
+                    </div>
+
+                    <!-- Output Text -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Texto Criptografado</label>
+                        <div class="relative">
+                            <textarea id="outputText" readonly placeholder="O texto criptografado aparecerá aqui..." 
+                                      class="w-full h-32 px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none resize-none"></textarea>
+                            <button id="copyEncrypted" class="absolute top-3 right-3 p-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors opacity-0 pointer-events-none">
+                                <i class="fas fa-copy text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-sm text-gray-500 dark:text-gray-400">
+                                <span id="outputCharCount">0</span> caracteres
+                            </span>
+                            <button id="clearOutput" class="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors opacity-0 pointer-events-none">
+                                <i class="fas fa-trash mr-1"></i>Limpar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Decryption Section -->
+        <section id="decrypt" class="mb-16 lg:mb-24">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl lg:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Descriptografar Texto</h3>
+                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Cole o texto criptografado e use o mesmo método para descriptografar</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="crypto-card theme-transition bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl border border-gray-200 dark:border-gray-700 p-6 lg:p-8">
+                    <!-- Algorithm Selection for Decryption -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Algoritmo de Descriptografia</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <button class="decrypt-algorithm-btn active" data-algorithm="base64">
+                                <i class="fas fa-code mr-2"></i>Base64
+                            </button>
+                            <button class="decrypt-algorithm-btn" data-algorithm="caesar">
+                                <i class="fas fa-key mr-2"></i>Caesar
+                            </button>
+                            <button class="decrypt-algorithm-btn" data-algorithm="rot13">
+                                <i class="fas fa-sync-alt mr-2"></i>ROT13
+                            </button>
+                            <button class="decrypt-algorithm-btn" data-algorithm="reverse">
+                                <i class="fas fa-exchange-alt mr-2"></i>Reverso
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Caesar Cipher Key Input for Decryption -->
+                    <div id="decryptCaesarKeyInput" class="mb-6 hidden">
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Chave Caesar (1-25)</label>
+                        <input type="number" id="decryptCaesarKey" min="1" max="25" value="3" class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                    </div>
+
+                    <!-- Input Encrypted Text -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Texto Criptografado</label>
+                        <textarea id="encryptedInput" placeholder="Cole o texto criptografado aqui..." 
+                                  class="w-full h-32 px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"></textarea>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-sm text-gray-500 dark:text-gray-400">
+                                <span id="encryptedCharCount">0</span> caracteres
+                            </span>
+                            <button id="clearEncryptedInput" class="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
+                                <i class="fas fa-trash mr-1"></i>Limpar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Decrypt Button -->
+                    <div class="mb-6">
+                        <button id="decryptBtn" class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            <i class="fas fa-unlock mr-2"></i>Descriptografar Texto
+                        </button>
+                    </div>
+
+                    <!-- Decrypted Output -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Texto Descriptografado</label>
+                        <div class="relative">
+                            <textarea id="decryptedOutput" readonly placeholder="O texto descriptografado aparecerá aqui..." 
+                                      class="w-full h-32 px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none resize-none"></textarea>
+                            <button id="copyDecrypted" class="absolute top-3 right-3 p-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors opacity-0 pointer-events-none">
+                                <i class="fas fa-copy text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-sm text-gray-500 dark:text-gray-400">
+                                <span id="decryptedCharCount">0</span> caracteres
+                            </span>
+                            <button id="clearDecryptedOutput" class="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors opacity-0 pointer-events-none">
+                                <i class="fas fa-trash mr-1"></i>Limpar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="mb-16 lg:mb-24">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl lg:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Sobre os Algoritmos</h3>
+                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Conheça os diferentes métodos de criptografia disponíveis</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <div class="crypto-card theme-transition bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-code text-blue-600 dark:text-blue-400 text-xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">Base64</h4>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed">Codificação que converte dados binários em texto ASCII. Amplamente usado para transmissão de dados na web.</p>
+                </div>
+                
+                <div class="crypto-card theme-transition bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-key text-green-600 dark:text-green-400 text-xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">Caesar Cipher</h4>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed">Cifra de substituição onde cada letra é deslocada por um número fixo de posições no alfabeto.</p>
+                </div>
+                
+                <div class="crypto-card theme-transition bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-sync-alt text-purple-600 dark:text-purple-400 text-xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">ROT13</h4>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed">Variação do Caesar Cipher com deslocamento fixo de 13 posições. Aplicar duas vezes retorna o texto original.</p>
+                </div>
+                
+                <div class="crypto-card theme-transition bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="w-12 h-12 bg-red-100 dark:bg-red-900 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-exchange-alt text-red-600 dark:text-red-400 text-xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">Reverso</h4>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed">Método simples que inverte a ordem dos caracteres do texto. Fácil de implementar e entender.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="theme-transition bg-gray-900 dark:bg-gray-950 text-white py-12">
+        <div class="container mx-auto px-4 lg:px-6">
+            <div class="text-center">
+                <!-- <div class="flex items-center justify-center space-x-3 mb-6">
+                    <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-lock text-white text-xl"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold">CryptoText</h4>
+                </div> -->
+                <!-- <p class="text-gray-400 mb-6 max-w-md mx-auto">Ferramenta simples e segura para criptografia de texto. Proteja suas mensagens com facilidade.</p> -->
+                <p class="text-gray-500">&copy; 2024 VOID | Cryptonize. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-xl shadow-lg transform translate-y-full opacity-0 transition-all duration-300 z-50">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle mr-2"></i>
+            <span id="toastMessage">Texto copiado!</span>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
